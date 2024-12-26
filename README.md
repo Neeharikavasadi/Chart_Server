@@ -79,8 +79,3 @@ Contributions are welcome! Please follow these steps:
 4. Push to the branch (`git push origin feature-branch`).
 5. Open a Pull Request.
 
-## License Information
-This project does not specify a license. Please check with the repository owner for licensing details.
-
-## Contact/Support Information
-For questions or support, you can open an issue on the GitHub repository [here](https://github.com/Neeharikavasadi/Chart_Server/issues).
