@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Chat App</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #ddd;
+        }
+
+        /* Name Modal */
+        #nameModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        #nameModal .modal-content {
+            padding: 30px;
+            background: #333;
+            border-radius: 10px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        #nameModal input {
+            width: 80%;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            font-size: 18px;
+            color: #ddd;
+            background: #555;
+            outline: none;
+        }
+
+        #nameModal input:focus {
+            border-color: #1dbf73;
+        }
+
+        #nameModal button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: #1dbf73;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #nameModal button:hover {
+            background: #17a55b;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            width: 80%;
+            max-width: 900px;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            border-radius: 15px;
+            background: #1c1c1c;
+            overflow: hidden;
+            display: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            background: #1dbf73;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 600;
+            text-transform: uppercase;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #2a2a2a;
+            border-bottom: 2px solid #333;
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 12px 18px;
+            border-radius: 20px;
+            word-wrap: break-word;
+            font-size: 16px;
+            animation: fadeInMessage 0.6s ease-out;
+        }
+
+        .message.sent {
+            align-self: flex-end;
+            background: #1dbf73;
+            color: white;
+        }
+
+        .message.received {
+            align-self: flex-start;
+            background: #333;
+            color: #ddd;
+        }
+
+        .footer {
+            display: flex;
+            padding: 20px;
+            background: #222;
+            border-top: 1px solid #444;
+        }
+
+        .footer input {
+            flex: 1;
+            padding: 15px;
+            border-radius: 20px;
+            border: 1px solid #444;
+            font-size: 16px;
+            color: #ddd;
+            background: #333;
+            outline: none;
+        }
+
+        .footer input:focus {
+            border-color: #1dbf73;
+        }
+
+        .footer button {
+            margin-left: 10px;
+            padding: 12px 20px;
+            border: none;
+            background: #1dbf73;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .footer button:hover {
+            background: #17a55b;
+        }
+
+        /* Emoji Picker */
+        #emojiPicker {
+            position: absolute;
+            bottom: 80px;
+            left: 20px;
+            width: 300px;
+            max-height: 200px;
+            display: none;
+            flex-wrap: wrap;
+            background: #333;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+        }
+
+        #emojiPicker span {
+            font-size: 30px;
+            padding: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        #emojiPicker span:hover {
+            transform: scale(1.2);
+        }
+
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInMessage {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Name Modal -->
+    <div id="nameModal">
+        <div class="modal-content">
+            <h2>Enter Your Name</h2>
+            <input type="text" id="nameInput" placeholder="Your name..." onkeydown="handleNameInput(event)">
+            <button onclick="saveName()">Start Chat</button>
+        </div>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container" id="chatContainer">
+        <div class="header"> Chat Group </div>
+        <div class="messages" id="messages"></div>
+        <div class="footer">
+            <input type="text" id="messageInput" placeholder="Type your message...">
+            <button id="emojiButton">😀</button>
+            <input type="file" id="imageInput" style="display: none;">
+            <button id="imageButton">📷</button>
+            <button id="sendButton">Send</button>
+        </div>
+        <div id="emojiPicker"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let userName = '';
+
+        function saveName() {
+            userName = document.getElementById('nameInput').value.trim();
+            if (userName) {
+                document.getElementById('nameModal').style.display = 'none';
+                document.getElementById('chatContainer').style.display = 'flex';
+            }
+        }
+
+        function handleNameInput(event) {
+            if (event.key === 'Enter') {
+                saveName();
+            }
+        }
+
+        const messagesContainer = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const emojiPicker = document.getElementById('emojiPicker');
+        const emojiButton = document.getElementById('emojiButton');
+        const imageInput = document.getElementById('imageInput');
+        const imageButton = document.getElementById('imageButton');
+
+        const emojis = ['😀', '😃', '😂', '😍', '❤️', '🎉', '😊', '😎', '👍', '🙌'];
+        emojiPicker.innerHTML = emojis.map(emoji => `<span>${emoji}</span>`).join('');
+
+        emojiPicker.addEventListener('click', (event) => {
+            if (event.target.tagName === 'SPAN') {
+                messageInput.value += event.target.textContent;
+                emojiPicker.style.display = 'none';
+            }
+        });
+
+        emojiButton.addEventListener('click', () => {
+            emojiPicker.style.display = emojiPicker.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        imageButton.addEventListener('click', () => imageInput.click());
+        imageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const imageUrl = reader.result;
+                    addMessage(`<img src="${imageUrl}" style="max-width: 100%;">`, 'sent');
+                    socket.emit('send_message', { name: userName, message: imageUrl, type: 'image' });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message) {
+                addMessage(message, 'sent');
+                socket.emit('send_message', { name: userName, message, type: 'text' });
+                messageInput.value = '';
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Listen for previous messages sent by the server when the user connects
+socket.on('load_previous_messages', (messages) => {
+    messages.forEach(data => {
+        const { name, message, type } = data;
+        if (type === 'image') {
+            addMessage(`<img src="${message}" style="max-width: 100%;">`, 'received', name);
+        } else {
+            addMessage(message, 'received', name);
+        }
+    });
+});
+
+// This function is used to add a new message to the chat
+function addMessage(content, type, sender = userName) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message', type);
+
+    if (type === 'received') {
+        const senderElement = document.createElement('div');
+        senderElement.textContent = sender;
+        senderElement.style.fontWeight = 'bold';
+        messageElement.appendChild(senderElement);
+    }
+
+    messageElement.innerHTML += content;
+    messagesContainer.appendChild(messageElement);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// Sending message to the server when the user submits a new message
+
+// Handling incoming messages (new messages sent from any user, including the current user)
+// Listen for incoming messages (new messages sent from any user, including the current user)
+socket.on('receive_message', (data) => {
+    const { name, message, type } = data;
+    if (name !== userName) {  // Only add messages that aren't from the current user
+        if (type === 'image') {
+            addMessage(`<img src="${message}" style="max-width: 100%;">`, 'received', name);
+        } else {
+            addMessage(message, 'received', name);
+        }
+    }
+});
+
+    </script>
+</body>
+</html>
