@@ -3,25 +3,25 @@
 ## Description
 Chart_Server is a simple chat application built using Flask and Socket.IO that allows users to communicate in real-time. It features an elegant user interface where users can send text messages and images, and the messages are stored in a JSON file.
 
-## Features and Functionality
+## 🌟Features and Functionality
 - Real-time messaging using WebSockets.
 - Ability to send and receive text messages.
 - Support for sending images.
 - Previous messages are loaded when a user connects.
 - Responsive and modern UI.
 
-## Technology Stack
+## 🛠 Technology Stack
 - **Backend**: Flask
 - **WebSockets**: Flask-SocketIO
 - **Frontend**: HTML, CSS, JavaScript
 - **Data Storage**: JSON file
 
-## Prerequisites
+## 📋Prerequisites
 To run this project, you need to have:
 - Python 3.6 or higher
 - pip (Python package installer)
 
-## Installation Instructions
+## 🚀 Installation Instructions
 1. Clone the repository:
    ```bash
    git clone https://github.com/Neeharikavasadi/Chart_Server.git
@@ -48,7 +48,7 @@ To run this project, you need to have:
    pip install flask flask-socketio
    ```
 
-## Usage Guide
+## ⚙️Usage Guide
 1. To start the server, run the following command in the terminal:
    ```bash
    python server.py
@@ -56,7 +56,7 @@ To run this project, you need to have:
 2. Open your web browser and go to `http://localhost:5000` to access the chat application.
 3. Enter your name and start chatting!
 
-## API Documentation
+## 📡API Documentation
 - **POST /send_message**
   - Sends a message to all connected clients.
   - Payload Structure:
@@ -71,7 +71,7 @@ To run this project, you need to have:
 - **GET /**
   - Serves the main chat interface.
 
-## Contributing Guidelines
+## 🤝 Contributing Guidelines
 Contributions are welcome! Please follow these steps:
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch`).
